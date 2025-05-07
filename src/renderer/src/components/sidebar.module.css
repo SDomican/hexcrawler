@@ -1,0 +1,8 @@
+.container{
+    position: fixed;  /* Fixed position relative to the viewport */
+    top: 0;           /* Align to the top */
+    left: 0;          /* Align to the left */
+    width: 5%;       /* screen width */
+    height: 100vh;    /* viewport height */
+    background-color: #FEF7FF; /* background color */
+}
