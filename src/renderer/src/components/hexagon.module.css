@@ -1,0 +1,13 @@
+.whiteBorderHex polygon {
+  fill: white;
+  stroke: black;
+  stroke-width: 2;
+}
+
+.borderedBox {
+  border: 2px solid red;
+  padding: 1px;
+  width: 95%;
+  height: 100vh;  
+   margin-left: auto; 
+}

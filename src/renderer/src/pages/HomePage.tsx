@@ -22,6 +22,7 @@ export default function HomePage(): React.JSX.Element {
       </p>
       <p><Link to="/hextest" className="link">HexTest</Link></p>
       <p><Link to="/homepage2" className="link">HomePage2</Link></p>
+      <p><Link to="/hexfilltest" className="link">HexFillTest</Link></p>
       <div className="actions">
         <div className="action">
           <a href="https://electron-vite.org/" target="_blank" rel="noreferrer">
