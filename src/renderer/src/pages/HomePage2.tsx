@@ -4,10 +4,14 @@ import './homepage.module.css';
 // @ts-ignore
 import { Link } from 'react-router-dom';
 import SideBar from  '../components/SideBar'
+import MainMenu from '@renderer/components/MainMenu';
 
 export default function HomePage2(): React.JSX.Element {
 
   return (
-      <SideBar/>
+    <>
+          <MainMenu/>
+          <SideBar/>
+    </>
   );
 }

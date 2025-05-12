@@ -1,0 +1,25 @@
+.p{
+    color: black;
+}
+
+.centeredBox {
+    width: 40%;
+    height: 35%;
+    background-color: #FEF7FF;
+  
+    /* Centering */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  
+    /* Responsive behavior */
+    min-width: 200px;
+    min-height: 150px;
+    max-width: 90%;
+    max-height: 80%;
+  
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+  }
+  
