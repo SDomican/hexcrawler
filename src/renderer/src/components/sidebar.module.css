@@ -1,9 +1,28 @@
-.container{
+.container {
     position: fixed;  /* Fixed position relative to the viewport */
     top: 0;           /* Align to the top */
     left: 0;          /* Align to the left */
-    width: 5%;       /* screen width */
+    width: 5%;        /* screen width */
     height: 100vh;    /* viewport height */
     background-color: #FEF7FF; /* background color */
+    z-index: 1000;    /* Ensure the sidebar is on top */
 }
- 
+
+.hamburger {
+    position: absolute;
+    top: 1rem;        /* Adjust top positioning */
+    left: 50%;        /* Position horizontally in the center */
+    transform: translateX(-50%); /* Offset to truly center */
+    width: 24px;
+    height: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: default;  /* decorative only */
+}
+
+.hamburger span {
+    height: 3px;
+    background-color: #333;
+    border-radius: 2px;
+}
