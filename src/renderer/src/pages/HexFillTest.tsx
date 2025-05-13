@@ -47,24 +47,40 @@ function generateHexGrid(width: number, height: number, className: string): Reac
 export default function HexFillTest(): React.JSX.Element {
   return (
     <>
-      {/* <TransformWrapper>
-          <TransformComponent>
-            <div className={styles.borderedBox}>
-              <HexGrid width={window.innerWidth} height={window.innerHeight} viewBox="-50 -50 100 100">
-                <Layout size={{ x: 15, y: 15 }} flat={true} spacing={1.1} origin={{ x: 0, y: 0 }}>
-                  {generateHexGrid(2, 2, styles.whiteBorderHex)}
-                </Layout>
-              </HexGrid>
-            </div>
-          </TransformComponent>
-      </TransformWrapper> */}
-
-      <HexGrid width={window.innerWidth} height={window.innerHeight} viewBox="-50 -50 100 100">
+      <TransformWrapper>
+        <div style={{ display: 'flex', height: '100vh' }}>
+              <SideBar/>
+          <div style={{ flex: 1 }}>
+            <TransformComponent wrapperStyle={{
+              border: '2px solid blue',
+              width: '100%', // Full width of the container
+              height: '100vh', // Full height of the screen
+              minWidth: '100px', // Enforce minimum width if needed
+              minHeight: '100px', // Enforce minimum height if needed
+              backgroundColor: 'red',
+            }}>
+            <div>
+                <HexGrid
+                  width={window.innerWidth}
+                  height={window.innerHeight}
+                  viewBox="50 -50 700 800" // This defines the coordinate system for the visible area
+                >
                 <Layout size={{ x: 5, y: 5 }} flat={false} spacing={1} origin={{ x: -50, y: -40 }}>
                   {generateHexGrid(100, 100, styles.whiteBorderHex)}
                 </Layout>
               </HexGrid>
-      <SideBar/>
+            </div>
+          </TransformComponent>
+
+       </div>
+
+
+        </div>
+
+
+           
+      </TransformWrapper>
+
     </>
   );
 }
