@@ -1,5 +1,5 @@
 // src/pages/HexFillTest.tsx
-import React from 'react';
+import React, { useMemo } from 'react';
 
 //CSS imports
 import '../assets/global.css'
@@ -19,6 +19,13 @@ import {
 // @ts-ignore
 import { Console } from 'console';
 
+  const MemoHex = React.memo(({ q, r, s, className }: { q: number, r: number, s: number, className: string }) => {
+  return <Hexagon q={q} r={r} s={s} className={className} />;
+});
+
+const hexes = useMemo(() => generateHexGrid(100, 100, styles.whiteBorderHex), []);
+
+
 function generateHexGrid(width: number, height: number, className: string): React.JSX.Element[] {
   const hexes: React.JSX.Element[] = [];
 
@@ -28,7 +35,7 @@ function generateHexGrid(width: number, height: number, className: string): Reac
     for (let q = -rOffset; q < width - rOffset; q++) {
       const s = -q - r;
       hexes.push(
-        <Hexagon
+        <MemoHex
           key={`${q},${r},${s}`}
           q={q}
           r={r}
@@ -43,7 +50,6 @@ function generateHexGrid(width: number, height: number, className: string): Reac
 }
 
 export default function HexFillTest(): React.JSX.Element {
-  
   return (
     <>
       <TransformWrapper>
@@ -65,7 +71,7 @@ export default function HexFillTest(): React.JSX.Element {
                   viewBox="50 -50 700 800" // This defines the coordinate system for the visible area
                 >
                 <Layout size={{ x: 5, y: 5 }} flat={false} spacing={1} origin={{ x: -50, y: -40 }}>
-                  {generateHexGrid(100, 100, styles.whiteBorderHex)}
+                  {hexes}
                 </Layout>
               </HexGrid>
             </div>
