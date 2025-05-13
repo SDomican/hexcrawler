@@ -42,9 +42,8 @@ function generateHexGrid(width: number, height: number, className: string): Reac
   return hexes;
 }
 
-
-
 export default function HexFillTest(): React.JSX.Element {
+  
   return (
     <>
       <TransformWrapper>
@@ -70,17 +69,10 @@ export default function HexFillTest(): React.JSX.Element {
                 </Layout>
               </HexGrid>
             </div>
-          </TransformComponent>
-
-       </div>
-
-
-        </div>
-
-
-           
+            </TransformComponent>
+          </div>
+        </div>   
       </TransformWrapper>
-
     </>
   );
 }
