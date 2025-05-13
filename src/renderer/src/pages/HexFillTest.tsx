@@ -11,54 +11,59 @@ import SideBar from  '../components/SideBar'
 
 // @ts-ignore
 import { HexGrid, Layout, Hexagon, Text, Pattern, Path, Hex } from 'react-hexgrid';
-
+// @ts-ignore
 import {
   TransformWrapper,
   TransformComponent,
 } from "react-zoom-pan-pinch";
+// @ts-ignore
+import { Console } from 'console';
 
-// const Controls = () => {
-//   const { zoomIn, zoomOut, resetTransform } = useControls();
-  
+function generateHexGrid(width: number, height: number, className: string): React.JSX.Element[] {
+  const hexes: React.JSX.Element[] = [];
 
-// return (
-//   <div className="tools">
-//     <button onClick={() => zoomIn()}>+</button>
-//     <button onClick={() => zoomOut()}>-</button>
-//     <button onClick={() => resetTransform()}>x</button>
-//   </div>
-// );
+  for (let r = 0; r < height; r++) {
+    const rOffset = Math.floor(r / 2); // offset for flat-topped hexes
 
-// }; 
-
-export default function HexFillTest(): React.JSX.Element {
-
-  function generateHexGrid(width: number, height: number, className: string): React.JSX.Element[] {
-    const hexes: React.JSX.Element[] = [];
-    for (let r = 0; r < height; r++) {
-      const r_offset = Math.floor(r / 2); // offset for even-q or odd-q layout
-      for (let q = -r_offset; q < width - r_offset; q++) {
-        hexes.push(
-          <Hexagon key={`${q},${r}`} q={q} r={r} s={-q - r} className={className} />
-        );
-      }
+    for (let q = -rOffset; q < width - rOffset; q++) {
+      const s = -q - r;
+      hexes.push(
+        <Hexagon
+          key={`${q},${r},${s}`}
+          q={q}
+          r={r}
+          s={s}
+          className={className}
+        />
+      );
     }
-    return hexes;
   }
 
+  return hexes;
+}
+
+
+
+export default function HexFillTest(): React.JSX.Element {
   return (
     <>
-      <TransformWrapper>
+      {/* <TransformWrapper>
           <TransformComponent>
             <div className={styles.borderedBox}>
-              {/* <HexGrid>
-                <Layout size={{ x: 10, y: 10 }} flat={true} spacing={1.1} origin={{ x: 0, y: 0 }}>
-                  {generateHexGrid(20, 20, styles.whiteBorderHex)}
+              <HexGrid width={window.innerWidth} height={window.innerHeight} viewBox="-50 -50 100 100">
+                <Layout size={{ x: 15, y: 15 }} flat={true} spacing={1.1} origin={{ x: 0, y: 0 }}>
+                  {generateHexGrid(2, 2, styles.whiteBorderHex)}
                 </Layout>
-              </HexGrid> */}
+              </HexGrid>
             </div>
           </TransformComponent>
-      </TransformWrapper>
+      </TransformWrapper> */}
+
+      <HexGrid width={window.innerWidth} height={window.innerHeight} viewBox="-50 -50 100 100">
+                <Layout size={{ x: 5, y: 5 }} flat={false} spacing={1} origin={{ x: -50, y: -40 }}>
+                  {generateHexGrid(100, 100, styles.whiteBorderHex)}
+                </Layout>
+              </HexGrid>
       <SideBar/>
     </>
   );
