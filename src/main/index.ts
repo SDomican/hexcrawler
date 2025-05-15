@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, session } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -16,6 +16,27 @@ function createWindow(): void {
       sandbox: false
     }
   })
+
+  
+  // DEV-ONLY CSP OVERRIDE
+  if (is.dev) {
+    session.defaultSession.webRequest.onHeadersReceived(
+      { urls: ['*://*/*'] },
+      (details, callback) => {
+        callback({
+          responseHeaders: {
+            ...details.responseHeaders,
+            'Content-Security-Policy': [
+              "default-src 'self' blob: data:; " +
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline' blob:; " +
+              "style-src 'self' 'unsafe-inline' blob: data:; " +
+              "worker-src blob:;"
+            ]
+          }
+        })
+      }
+    )
+  }
 
   if (require('electron-squirrel-startup')) app.quit();
 
