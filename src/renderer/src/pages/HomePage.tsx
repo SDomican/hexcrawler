@@ -3,8 +3,9 @@ import React, { useRef, useEffect } from 'react';
 // import { Link } from 'react-router-dom';
 // import Versions from '../components/Versions';
 // import electronLogo from '../assets/electron.svg';
+import bunnyUrl from '../assets/Images/bunny.png'
 
-import { Application } from 'pixi.js';
+import { Application, Assets, Sprite } from 'pixi.js';
 
 
 export default function HomePage(): React.JSX.Element {
@@ -29,6 +30,22 @@ useEffect(() => {
       .catch((err) => {
         console.error('Pixi failed to init:', err);
       });
+
+        
+    (async () => {
+      try {
+      console.log('Loading image from:', bunnyUrl);
+      const texture = await Assets.load(bunnyUrl);
+
+        const bunny = new Sprite(texture);
+        bunny.anchor.set(0.5);
+        bunny.x = app.screen.width / 2;
+        bunny.y = app.screen.height / 2;
+        app.stage.addChild(bunny);
+      } catch (err) {
+        console.error('Failed to load bunny texture:', err);
+      }
+    })();
 
     return () => {
       // Only destroy if init() completed
