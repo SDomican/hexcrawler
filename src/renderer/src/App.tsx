@@ -6,7 +6,7 @@ import AwesomePage from './pages/AwesomePage'
 import HexTest from './pages/HexTest'
 import HomePage2 from './pages/HomePage2'
 import HexFillTest from './pages/HexFillTest';
-import PixiScreen from './components/PixiScreen';
+import PixiTest from './pages/PixiTest';
 
 export default function App(): React.JSX.Element {
   return (
@@ -16,7 +16,7 @@ export default function App(): React.JSX.Element {
       <Route path="/hextest" element={<HexTest />} />
       <Route path="/homepage2" element={<HomePage2 />} />
       <Route path="/hexfilltest" element={<HexFillTest />} />
-      <Route path="/pixitest" element={<PixiScreen />} />
+      <Route path="/pixitest" element={<PixiTest />} />
     </Routes>
   );
 }

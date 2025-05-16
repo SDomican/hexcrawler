@@ -17,7 +17,6 @@ function createWindow(): void {
     }
   })
 
-  
   // DEV-ONLY CSP OVERRIDE
   if (is.dev) {
     session.defaultSession.webRequest.onHeadersReceived(
