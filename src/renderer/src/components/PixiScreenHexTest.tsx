@@ -1,8 +1,13 @@
 import React, { useRef, useEffect } from 'react';
 import { Application, Graphics } from 'pixi.js';
+import { defineHex, Grid, rectangle, Hex } from 'honeycomb-grid'
 
 export default function PixiScreenHexTest(): React.JSX.Element {
   const containerRef = useRef<HTMLDivElement>(null);
+  const initializedRef = useRef(false);  
+
+  const Hex = defineHex({ dimensions: 30, origin: 'topLeft' })
+  const grid = new Grid(Hex, rectangle({ width: 10, height: 10 }))
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -16,15 +21,11 @@ export default function PixiScreenHexTest(): React.JSX.Element {
     const app = new Application();
     const graphics = new Graphics();
 
-    // Setup graphics (fix: use correct graphics calls)
-    graphics.rect(50, 50, 100, 100);
-    graphics.fill(0xde3249);
-
-    let initialized = false;
+    grid.forEach((hex) => renderHex(graphics, hex));
 
     async function setup() {
-      initialized = await initiateApp(app, containerRef);
-      if (initialized) {
+      initializedRef.current = await initiateApp(app, containerRef);
+      if (initializedRef.current) {
         app.stage.addChild(graphics);
       }
     }
@@ -33,7 +34,7 @@ export default function PixiScreenHexTest(): React.JSX.Element {
 
     return () => {
       // Only destroy if init completed
-      if (initialized) {
+      if (initializedRef.current) {
         app.destroy(true, { children: true, texture: true });
       }
     };
@@ -43,7 +44,7 @@ export default function PixiScreenHexTest(): React.JSX.Element {
     <>
       <div
         ref={containerRef}
-        style={{ width: '100%', height: '100%', position: 'relative' }}
+        style={{ width: '90%', height: '100%', position: 'relative', border: '2px solid red' }}
       />
     </>
   );
@@ -60,7 +61,7 @@ function initiateApp(
 
   return app
     .init({
-      background: '#1099bb',
+      background: '#ffffff',
       resizeTo: containerRef.current,
     })
     .then(() => {
@@ -71,4 +72,12 @@ function initiateApp(
       console.error('Pixi failed to init:', err);
       return false;
     });
+}
+
+function renderHex(graphics: Graphics, hex: Hex) {
+  graphics
+    .lineStyle(1, 0x999999)   // stroke color and thickness
+    .beginFill(0xffffff)      // fill color
+    .drawPolygon(hex.corners)
+    .endFill();
 }
