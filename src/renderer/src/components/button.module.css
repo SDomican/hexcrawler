@@ -14,3 +14,8 @@
 .button:hover {
   background-color: #0056b3;
 }
+
+img:hover {
+  filter: invert(18%) sepia(100%) saturate(2500%) hue-rotate(-20deg) brightness(170%) contrast(85%);
+}
+
