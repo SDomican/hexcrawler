@@ -1,5 +1,5 @@
 .container {
-    position: fixed;  /* Fixed position relative to the viewport */
+    position: relative;
     top: 0;           /* Align to the top */
     left: 0;          /* Align to the left */
     width: 5%;        /* screen width */

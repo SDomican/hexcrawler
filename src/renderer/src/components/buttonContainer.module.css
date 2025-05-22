@@ -1,0 +1,11 @@
+.container{
+    width: 20%;         
+    height: 40%;
+    border-radius: 10px; 
+
+    position: fixed;    
+    top: 20px;               /* Distance from the top */
+    right: 90%;             /* Distance from the right */
+    z-index: 9999;   
+    border: 1px solid black;
+}
