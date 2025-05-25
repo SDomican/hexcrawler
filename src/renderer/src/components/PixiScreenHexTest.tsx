@@ -1,41 +1,56 @@
 import React, { useRef, useEffect } from 'react';
 import { Application, Graphics } from 'pixi.js';
 import { defineHex, Grid, rectangle, Hex } from 'honeycomb-grid';
+import { Viewport } from "pixi-viewport";
 
 export default function PixiScreenHexTest(): React.JSX.Element {
   const containerRef = useRef<HTMLDivElement>(null);
   const initializedRef = useRef(false);
 
   const Hex = defineHex({ dimensions: 50, origin: 'topLeft' });
-  const grid = new Grid(Hex, rectangle({ width: 10, height: 10 }));
+  const grid = new Grid(Hex, rectangle({ width: 100, height: 100 }));
   const appRef = useRef<Application | null>(null);
 
-  useEffect(() => {
-    if (!containerRef.current) return;
+useEffect(() => {
+  if (!containerRef.current) return;
 
-    if (initializedRef.current) {
-      console.warn("Pixi already initialized, skipping.");
-      return;
-    }
+  if (initializedRef.current) {
+    console.warn("Pixi already initialized, skipping.");
+    return;
+  }
 
-    const app = new Application();
-    appRef.current = app;
+  const app = new Application();
+  appRef.current = app;
 
-    app.init({
+  app
+    .init({
       background: '#ffffff',
       resizeTo: containerRef.current,
     })
     .then(() => {
       if (!containerRef.current) return;
-        if (!containerRef.current.querySelector('canvas')) {
-          containerRef.current.appendChild(app.canvas);
-        }
+      if (!containerRef.current.querySelector('canvas')) {
+        containerRef.current.appendChild(app.canvas);
+      }
 
+      const viewport = new Viewport({
+        screenWidth: window.innerWidth,
+        screenHeight: window.innerHeight,
+        worldWidth: 1000,
+        worldHeight: 1000,
+        events: app.renderer.events, 
+      });
+
+      // add the viewport to the stage
+      app.stage.addChild(viewport);
+
+      // Render hexes inside the viewport
       const graphics = new Graphics();
       grid.forEach(hex => renderHex(graphics, hex));
-      app.stage.addChild(graphics);
+      viewport.addChild(graphics); 
 
-      app.stage.scale.set(1);
+      // activate plugins
+      viewport.drag().pinch().wheel().decelerate();
 
       initializedRef.current = true;
     })
@@ -43,14 +58,14 @@ export default function PixiScreenHexTest(): React.JSX.Element {
       console.error('Pixi failed to init:', err);
     });
 
-    return () => {
-      if (initializedRef.current && appRef.current) {
-        appRef.current.destroy(true, { children: true, texture: true });
-        appRef.current = null;
-        initializedRef.current = false;
-      }
-    };
-  }, []);
+  return () => {
+    if (initializedRef.current && appRef.current) {
+      appRef.current.destroy(true, { children: true, texture: true });
+      appRef.current = null;
+      initializedRef.current = false;
+    }
+  };
+}, []);
 
   return (
     <div
@@ -62,7 +77,7 @@ export default function PixiScreenHexTest(): React.JSX.Element {
 
 function renderHex(graphics: Graphics, hex: Hex) {
   graphics
-    .setStrokeStyle({ width: 1, color: 0x999999 })
+    .setStrokeStyle({ width: 10, color: 0x999999 })
     .beginFill(0xffffff)
     .drawPolygon(hex.corners)
     .endFill();
