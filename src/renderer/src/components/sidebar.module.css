@@ -6,6 +6,7 @@
     height: 100vh;    /* viewport height */
     background-color: #FEF7FF; /* background color */
     z-index: 1000;    /* Ensure the sidebar is on top */
+    min-width: 40px;       /* prevents shrinking below 60px */
 }
 
 .hamburger {

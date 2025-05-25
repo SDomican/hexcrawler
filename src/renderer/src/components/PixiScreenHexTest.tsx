@@ -6,7 +6,7 @@ export default function PixiScreenHexTest(): React.JSX.Element {
   const containerRef = useRef<HTMLDivElement>(null);
   const initializedRef = useRef(false);
 
-  const Hex = defineHex({ dimensions: 30, origin: 'topLeft' });
+  const Hex = defineHex({ dimensions: 50, origin: 'topLeft' });
   const grid = new Grid(Hex, rectangle({ width: 10, height: 10 }));
   const appRef = useRef<Application | null>(null);
 
@@ -34,6 +34,8 @@ export default function PixiScreenHexTest(): React.JSX.Element {
       const graphics = new Graphics();
       grid.forEach(hex => renderHex(graphics, hex));
       app.stage.addChild(graphics);
+
+      app.stage.scale.set(1);
 
       initializedRef.current = true;
     })
