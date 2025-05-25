@@ -6,6 +6,11 @@ function ButtonContainer(): React.JSX.Element {
   return (
     <div className={styles.container}>
       <Button iconSrc={gearIcon}/>
+      <Button iconSrc={gearIcon}/>
+      <Button iconSrc={gearIcon}/>
+      <Button iconSrc={gearIcon}/>
+      <Button iconSrc={gearIcon}/>
+      <Button iconSrc={gearIcon}/>
     </div>
   );
 }
