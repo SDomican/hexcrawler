@@ -70,7 +70,7 @@ useEffect(() => {
   return (
     <div
       ref={containerRef}
-      style={{ height: '100%', position: 'relative', border: '2px solid red', flexGrow: 0, flexShrink: 0, flexBasis: '95%', }}
+      style={{ height: '100%', position: 'relative', border: '2px solid red', flexGrow: 0, flexShrink: 0, flexBasis: '75%', }}
     />
   );
 }

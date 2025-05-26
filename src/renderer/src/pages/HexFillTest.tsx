@@ -53,7 +53,7 @@ export default function HexFillTest(): React.JSX.Element {
 
   return (
     <TransformWrapper>
-      <div style={{ display: 'flex', height: '100vh' }}>
+      <div id='trnasfo' style={{ display: 'flex', height: '100vh' }}>
         <SideBar />
         <div ref={containerRef} style={{ flex: 1, position: 'relative' }}>
           <TransformComponent

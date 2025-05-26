@@ -4,6 +4,7 @@ import React from 'react';
 import PixiScreen from '@renderer/components/PixiScreen';
 import SideBar from '@renderer/components/SideBar';
 import PixiScreenHexTest from '@renderer/components/PixiScreenHexTest';
+import HexRightBar from '@renderer/components/HexRightBar/HexRightBar';
 
 
 import ButtonContainer from '@renderer/components/ButtonContainer';
@@ -16,6 +17,7 @@ export default function PixiTest(): React.JSX.Element {
           <SideBar/>
           <PixiScreenHexTest/>
           <ButtonContainer/>
+          <HexRightBar />
       </div>
     </>
   );
