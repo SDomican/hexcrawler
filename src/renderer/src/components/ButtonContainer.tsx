@@ -2,10 +2,15 @@ import styles from "./buttonContainer.module.css";
 import Button from '@renderer/components/Button';
 import gearIcon from '../assets/Images/gear-hammer.svg';
 
-function ButtonContainer(): React.JSX.Element {
+interface ButtonContainerProps {
+  onToggleHexRightBar: () => void;
+}
+
+
+function ButtonContainer({ onToggleHexRightBar }: ButtonContainerProps): React.JSX.Element {
   return (
     <div className={styles.container}>
-      <Button iconSrc={gearIcon}/>
+      <Button onClick={onToggleHexRightBar} iconSrc={gearIcon} />
       <Button iconSrc={gearIcon}/>
       <Button iconSrc={gearIcon}/>
       <Button iconSrc={gearIcon}/>

@@ -3,7 +3,12 @@ import { Application, Graphics } from 'pixi.js';
 import { defineHex, Grid, rectangle, Hex } from 'honeycomb-grid';
 import { Viewport } from "pixi-viewport";
 
-export default function PixiScreenHexTest(): React.JSX.Element {
+interface PixiScreenHexTestProps {
+  showHexRightBar: boolean;
+}
+
+export default function PixiScreenHexTest({ showHexRightBar }: PixiScreenHexTestProps): React.JSX.Element {
+    console.log("showHexBarRight1: " + showHexRightBar);
   const containerRef = useRef<HTMLDivElement>(null);
   const initializedRef = useRef(false);
 
@@ -67,10 +72,12 @@ useEffect(() => {
   };
 }, []);
 
+  console.log("showHexBarRight: " + showHexRightBar);
+
   return (
     <div
       ref={containerRef}
-      style={{ height: '100%', position: 'relative', border: '2px solid red', flexGrow: 0, flexShrink: 0, flexBasis: '75%', }}
+      style={{ height: '100%', position: 'relative', border: '2px solid red', flexGrow: 0, flexShrink: 0, flexBasis: showHexRightBar ? '75%' : '95%' }}
     />
   );
 }
