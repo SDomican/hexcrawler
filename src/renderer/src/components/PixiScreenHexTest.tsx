@@ -8,7 +8,6 @@ interface PixiScreenHexTestProps {
 }
 
 export default function PixiScreenHexTest({ showHexRightBar }: PixiScreenHexTestProps): React.JSX.Element {
-    console.log("showHexBarRight1: " + showHexRightBar);
   const containerRef = useRef<HTMLDivElement>(null);
   const initializedRef = useRef(false);
 
@@ -71,8 +70,6 @@ useEffect(() => {
     }
   };
 }, []);
-
-  console.log("showHexBarRight: " + showHexRightBar);
 
   return (
     <div
