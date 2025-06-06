@@ -77,23 +77,32 @@ useEffect(() => {
 
   //Resizes PixiJS canvas when button to show/hide right-hand menu bar is clicked.
   useEffect(() => {
+
     if (isReady && appRef.current && containerRef.current) {
       let width = containerRef.current.clientWidth;
       const height = containerRef.current.clientHeight;
 
-      console.log("showHexRightBar " + showHexRightBar);
-      if(showHexRightBar === true){
-        width =  Math.floor(document.body.clientWidth * 0.75);
+      const resizeCanvasAsync = async() => {
+        await sleep(200);
+
+        if(appRef.current != null && containerRef.current != null){
+
+          width = showHexRightBar
+          ? Math.floor(document.body.clientWidth * 0.75)
+          : containerRef.current.clientWidth;
+
+          appRef.current.renderer.resize(width, height);
+        }
       }
 
-      appRef.current.renderer.resize(width, height);
+      resizeCanvasAsync();
     }
   }, [showHexRightBar, isReady]);
-  // transition: 'flex-basis 0.2s ease-in-out',
+
   return (
     <div id='PixiCanvasDiv'
       ref={containerRef}
-      style={{ height: '100%', position: 'relative', border: '2px solid red', flexGrow: 0, flexShrink: 0, flexBasis: showHexRightBar ? '75%' : '95%' }}
+      style={{ height: '100%', position: 'relative', border: '2px solid red', flexGrow: 0, flexShrink: 0, flexBasis: showHexRightBar ? '75%' : '95%', transition: 'flex-basis 0.2s ease-in-out' }}
     />
   );
 }
@@ -105,3 +114,5 @@ function renderHex(graphics: Graphics, hex: Hex) {
     .drawPolygon(hex.corners)
     .endFill();
 }
+
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
