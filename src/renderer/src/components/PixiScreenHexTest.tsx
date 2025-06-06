@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Application, Graphics } from 'pixi.js';
 import { defineHex, Grid, rectangle, Hex } from 'honeycomb-grid';
 import { Viewport } from "pixi-viewport";
@@ -14,6 +14,7 @@ export default function PixiScreenHexTest({ showHexRightBar }: PixiScreenHexTest
   const Hex = defineHex({ dimensions: 50, origin: 'topLeft' });
   const grid = new Grid(Hex, rectangle({ width: 100, height: 100 }));
   const appRef = useRef<Application | null>(null);
+  const [isReady, setIsReady] = useState(false);
 
 useEffect(() => {
   if (!containerRef.current) return;
@@ -45,6 +46,8 @@ useEffect(() => {
         events: app.renderer.events, 
       });
 
+      app.canvas.style.border = '2px dashed blue';
+
       // add the viewport to the stage
       app.stage.addChild(viewport);
 
@@ -57,6 +60,7 @@ useEffect(() => {
       viewport.drag().pinch().wheel().decelerate();
 
       initializedRef.current = true;
+      setIsReady(true); 
     })
     .catch((err) => {
       console.error('Pixi failed to init:', err);
@@ -71,8 +75,23 @@ useEffect(() => {
   };
 }, []);
 
+  //Resizes PixiJS canvas when button to show/hide right-hand menu bar is clicked.
+  useEffect(() => {
+    if (isReady && appRef.current && containerRef.current) {
+      let width = containerRef.current.clientWidth;
+      const height = containerRef.current.clientHeight;
+
+      console.log("showHexRightBar " + showHexRightBar);
+      if(showHexRightBar === true){
+        width =  Math.floor(document.body.clientWidth * 0.75);
+      }
+
+      appRef.current.renderer.resize(width, height);
+    }
+  }, [showHexRightBar, isReady]);
+  // transition: 'flex-basis 0.2s ease-in-out',
   return (
-    <div
+    <div id='PixiCanvasDiv'
       ref={containerRef}
       style={{ height: '100%', position: 'relative', border: '2px solid red', flexGrow: 0, flexShrink: 0, flexBasis: showHexRightBar ? '75%' : '95%' }}
     />
