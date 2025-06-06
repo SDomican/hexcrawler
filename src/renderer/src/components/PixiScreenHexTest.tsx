@@ -46,8 +46,6 @@ useEffect(() => {
         events: app.renderer.events, 
       });
 
-      app.canvas.style.border = '2px dashed blue';
-
       // add the viewport to the stage
       app.stage.addChild(viewport);
 
@@ -75,28 +73,30 @@ useEffect(() => {
   };
 }, []);
 
-  //Resizes PixiJS canvas when button to show/hide right-hand menu bar is clicked.
-  useEffect(() => {
+//Resizes PixiJS canvas when button to show/hide right-hand menu bar is clicked.
+useEffect(() => {
+  const container = containerRef.current;
+  const app = appRef.current;
 
-    if (isReady && appRef.current && containerRef.current) {
-      let width = containerRef.current.clientWidth;
-      const height = containerRef.current.clientHeight;
+  if (!isReady || !container || !app) return;
 
-      const resizeCanvasAsync = async() => {
-        await sleep(200);
-
-        if(appRef.current != null && containerRef.current != null){
-
-          width = showHexRightBar
-          ? Math.floor(document.body.clientWidth * 0.75)
-          : containerRef.current.clientWidth;
-
-          appRef.current.renderer.resize(width, height);
-        }
-      }
-
-      resizeCanvasAsync();
+  const handleResize = () => {
+    if(containerRef.current){
+      const width = showHexRightBar ? Math.floor(document.body.clientWidth * 0.75) : containerRef.current.clientWidth;
+      const height = container.clientHeight;
+      app.renderer.resize(width, height);
     }
+  };
+
+    // Attach the event listener for when the flex-basis transition completes
+    container.addEventListener('transitionend', handleResize);
+
+    // Resize immediately in case no transition occurs
+    handleResize();
+
+    return () => {
+      container.removeEventListener('transitionend', handleResize);
+    };
   }, [showHexRightBar, isReady]);
 
   return (
@@ -115,4 +115,4 @@ function renderHex(graphics: Graphics, hex: Hex) {
     .endFill();
 }
 
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
