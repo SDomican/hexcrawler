@@ -102,7 +102,7 @@ useEffect(() => {
   return (
     <div id='PixiCanvasDiv'
       ref={containerRef}
-      style={{ height: '100%', position: 'relative', border: '2px solid red', flexGrow: 0, flexShrink: 0, flexBasis: showHexRightBar ? '75%' : '95%', transition: 'flex-basis 0.1s ease-in-out' }}
+      style={{ height: '100%', position: 'relative', border: '2px solid red', flexGrow: 0, flexShrink: 0, flexBasis: showHexRightBar ? '67%' : '95%', transition: 'flex-basis 0.1s ease-in-out' }}
     />
   );
 }
