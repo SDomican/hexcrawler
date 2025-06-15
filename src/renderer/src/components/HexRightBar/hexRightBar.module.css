@@ -1,6 +1,8 @@
 .rightBarContainer {
   width: 28%;
   height: 100%; 
+  min-width: 28%;
+  min-height: 100%;
 
   background-color: #F9E2C5;
 

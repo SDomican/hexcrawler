@@ -9,6 +9,7 @@ interface PixiScreenHexTestProps {
 
 export default function PixiScreenHexTest({ showHexRightBar }: PixiScreenHexTestProps): React.JSX.Element {
   const containerRef = useRef<HTMLDivElement>(null);
+  const viewportRef = useRef<Viewport | null>(null);
   const initializedRef = useRef(false);
 
   const Hex = defineHex({ dimensions: 50, origin: 'topLeft' });
@@ -28,14 +29,19 @@ useEffect(() => {
   appRef.current = app;
 
   app
-    .init({
+    .init({      
       background: '#ffffff',
       resizeTo: containerRef.current,
     })
     .then(() => {
-      if (!containerRef.current) return;
+      if (!containerRef.current)
+        return;
+      
       if (!containerRef.current.querySelector('canvas')) {
         containerRef.current.appendChild(app.canvas);
+        app.canvas.style.width = '100%';
+        app.canvas.style.height = '100%';
+        app.canvas.style.display = 'block';
       }
 
       const viewport = new Viewport({
@@ -48,6 +54,8 @@ useEffect(() => {
 
       // add the viewport to the stage
       app.stage.addChild(viewport);
+
+      viewportRef.current = viewport;
 
       // Render hexes inside the viewport
       const graphics = new Graphics();
@@ -73,36 +81,39 @@ useEffect(() => {
   };
 }, []);
 
-//Resizes PixiJS canvas when button to show/hide right-hand menu bar is clicked.
 useEffect(() => {
-  const container = containerRef.current;
+  if (!isReady || !containerRef.current || !appRef.current || !viewportRef.current) return;
+
   const app = appRef.current;
+  const container = containerRef.current;
 
-  if (!isReady || !container || !app) return;
+  let resizeTimeout: ReturnType<typeof setTimeout> | null = null;
 
-  const handleResize = () => {
-    if(containerRef.current){
-      const width = showHexRightBar ? Math.floor(document.body.clientWidth * 0.75) : containerRef.current.clientWidth;
+  const observer = new ResizeObserver(() => {
+    if (resizeTimeout) clearTimeout(resizeTimeout);
+    
+    resizeTimeout = setTimeout(() => {
+      const width = container.clientWidth;
       const height = container.clientHeight;
-      app.renderer.resize(width, height);
-    }
+
+      if (width > 0 && height > 0 && viewportRef.current) {
+        app.renderer.resize(width, height);
+        viewportRef.current.resize(width, height, viewportRef.current.worldWidth, viewportRef.current.worldHeight);
+      }
+    }, 100); // wait 100ms after last resize event
+  });
+
+  observer.observe(container);
+
+  return () => {
+    if (resizeTimeout) clearTimeout(resizeTimeout);
+    observer.disconnect();
   };
+}, [isReady]);
 
-    // Attach the event listener for when the flex-basis transition completes
-    container.addEventListener('transitionend', handleResize);
-
-    // Resize immediately in case no transition occurs
-    handleResize();
-
-    return () => {
-      container.removeEventListener('transitionend', handleResize);
-    };
-  }, [showHexRightBar, isReady]);
 
   return (
-    <div id='PixiCanvasDiv'
-      ref={containerRef}
-      style={{ height: '100%', position: 'relative', border: '2px solid red', flexGrow: 0, flexShrink: 0, flexBasis: showHexRightBar ? '67%' : '95%', transition: 'flex-basis 0.1s ease-in-out' }}
+      <div id='PixiCanvasDiv'ref={containerRef} style={{ width: showHexRightBar ? '67%' : '95%', position: 'relative', border: '2px solid red',  transition: 'width 0.1s ease-in-out',}}
     />
   );
 }
